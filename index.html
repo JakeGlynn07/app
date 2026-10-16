@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Pup Quiz</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#fff7ed" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1c1410" media="(prefers-color-scheme: dark)">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Pup Quiz">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+  <link rel="apple-touch-icon" href="./apple-touch-icon.png">
+
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <main class="app">
+
+    <!-- MENU SCREEN -->
+    <section id="menu-screen" class="screen">
+      <div class="logo" aria-hidden="true">🐶</div>
+      <h1>Pup Quiz</h1>
+      <p class="subtitle">Ten random dog photos. Can you name the breed?</p>
+      <p class="best" id="best-line" hidden></p>
+      <div class="actions">
+        <button type="button" class="btn btn-primary btn-large" id="start-btn">Start quiz</button>
+      </div>
+      <p class="fine-print">Photos come from the Dog CEO API.</p>
+    </section>
+
+    <!-- GAME SCREEN -->
+    <section id="game-screen" class="screen" hidden>
+      <div class="status-bar">
+        <div class="stat">
+          <span class="stat-label">Dog</span>
+          <span class="stat-value" id="round-label">1 / 10</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Score</span>
+          <span class="stat-value" id="score-label">0</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Streak</span>
+          <span class="stat-value" id="streak-label">0</span>
+        </div>
+        <button type="button" class="btn btn-ghost" id="quit-btn">Quit</button>
+      </div>
+
+      <div class="progress" aria-hidden="true"><div class="progress-bar" id="progress-bar"></div></div>
+
+      <div class="photo" id="photo">
+        <img id="dog-img" alt="A dog. Which breed is it?">
+        <div class="photo-loading" id="photo-loading">Fetching a good dog…</div>
+      </div>
+
+      <div class="error-box" id="error-box" hidden>
+        <p id="error-text">Something went wrong.</p>
+        <button type="button" class="btn btn-secondary" id="retry-btn">Try again</button>
+      </div>
+
+      <p class="question">What breed is this?</p>
+      <div class="options" id="options" role="group" aria-label="Answer choices"></div>
+
+      <p class="feedback" id="feedback" aria-live="polite"></p>
+      <div class="actions">
+        <button type="button" class="btn btn-primary" id="next-btn" hidden>Next dog</button>
+      </div>
+      <p class="hint">Tip: press 1 to 4 to answer, and Enter for the next dog.</p>
+    </section>
+
+    <!-- RESULTS SCREEN -->
+    <section id="results-screen" class="screen" hidden>
+      <h2 id="results-title">Quiz complete!</h2>
+      <p class="subtitle" id="results-sub">Here is how you did.</p>
+
+      <div class="results-grid">
+        <div class="result-card">
+          <span class="result-value" id="result-score">0</span>
+          <span class="result-label">Correct</span>
+        </div>
+        <div class="result-card">
+          <span class="result-value" id="result-streak">0</span>
+          <span class="result-label">Best streak</span>
+        </div>
+        <div class="result-card">
+          <span class="result-value" id="result-best">0</span>
+          <span class="result-label">Best score</span>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="btn btn-primary" id="again-btn">Play again</button>
+        <button type="button" class="btn btn-secondary" id="menu-btn">Menu</button>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="./app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js', { scope: './' }).catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>
